@@ -5,7 +5,7 @@ Este projeto tem como objetivo a automação de processos e serviços relacionad
 
 ## Estrutura do Projeto
 
-<<<<<<< HEAD
+
 ```
 =======
 >>>>>>> ce29d3800255c8589fe2e5b055fba6b503ae1483
@@ -36,4 +36,3 @@ datapilot/                # Pasta raiz do projeto
 ```
 =======
 
->>>>>>> ce29d3800255c8589fe2e5b055fba6b503ae1483
