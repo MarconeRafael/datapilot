@@ -193,3 +193,7 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 *.csv
+
+# Added by cargo
+
+/target
