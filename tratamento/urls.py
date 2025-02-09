@@ -1,6 +1,8 @@
 from django.urls import path
-from . import views  # Certifique-se de que a view tratada está importada corretamente
+from . import views
 
 urlpatterns = [
-    path('', views.tratamento_view, name='home'),  # Substitua home por tratamento_view
+    path('receber_dados/', views.receber_dados, name='receber_dados'),
+    path('exibir_coisas/', views.exibir_coisas, name='exibir_coisas'),
+    path('fazer_operacoes/', views.fazer_operacoes, name='fazer_operacoes'),
 ]

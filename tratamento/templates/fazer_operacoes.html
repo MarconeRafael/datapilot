@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 border-0 rounded-3">
+        <h2 class="text-center mb-4 text-primary">Operações sobre os Dados</h2>
+        
+        <form method="post" id="operacoes-form">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label fw-bold">Escolha a operação desejada:</label>
+                
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-lg operacao-btn" data-funcao="remover_valores_nulos">🧹 Remover Valores Nulos</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg operacao-btn" data-funcao="calcular_correlacao">📊 Calcular Correlação</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg operacao-btn" data-funcao="plotar_heatmap_correlacao">🔥 Exibir Heatmap de Correlação</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg operacao-btn" data-funcao="plotar_histograma">📈 Plotar Histograma</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg operacao-btn" data-funcao="dividir_dados_treino_teste">✂️ Dividir Treino/Teste</button>
+                    <button type="button" class="btn btn-outline-primary btn-lg operacao-btn" data-funcao="padronizar_dados">📏 Padronizar Dados</button>
+                </div>
+            </div>
+            
+            <div id="variaveis-container" class="mt-4 d-none">
+                <label class="form-label fw-bold">Selecione as variáveis para a operação:</label>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for var in request.session.variaveis %}
+                        <button type="button" class="btn btn-outline-secondary variavel-btn" data-variavel="{{ var }}">{{ var }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <input type="hidden" name="funcao" id="funcao" value="">
+            <input type="hidden" name="variaveis" id="variaveis" value="">
+            
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-success btn-lg">Executar Operação</button>
+            </div>
+        </form>
+        
+        {% if resultado %}
+            <div class="mt-4">
+                <h4 class="text-center text-success">Resultado:</h4>
+                <div class="table-responsive border rounded-3 shadow-sm p-3 bg-light">
+                    <table class="table table-hover table-bordered text-center align-middle">
+                        {{ resultado|safe }}
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+        
+        {% if erro %}
+            <div class="alert alert-danger mt-4 text-center fw-bold" role="alert">
+                ❌ Erro: {{ erro }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let operacaoSelecionada = "";
+        let variaveisSelecionadas = [];
+
+        document.querySelectorAll(".operacao-btn").forEach(btn => {
+            btn.addEventListener("click", function() {
+                document.querySelectorAll(".operacao-btn").forEach(b => b.classList.remove("btn-success"));
+                this.classList.add("btn-success");
+                operacaoSelecionada = this.dataset.funcao;
+                document.getElementById("funcao").value = operacaoSelecionada;
+                
+                if (["correlacao_com_variavel", "filtrar_variaveis", "plotar_histograma", "dividir_dados_treino_teste", "padronizar_dados"].includes(operacaoSelecionada)) {
+                    document.getElementById("variaveis-container").classList.remove("d-none");
+                } else {
+                    document.getElementById("variaveis-container").classList.add("d-none");
+                    variaveisSelecionadas = [];
+                    document.getElementById("variaveis").value = "";
+                }
+            });
+        });
+
+        document.querySelectorAll(".variavel-btn").forEach(btn => {
+            btn.addEventListener("click", function() {
+                if (variaveisSelecionadas.includes(this.dataset.variavel)) {
+                    variaveisSelecionadas = variaveisSelecionadas.filter(v => v !== this.dataset.variavel);
+                    this.classList.remove("btn-success");
+                } else {
+                    variaveisSelecionadas.push(this.dataset.variavel);
+                    this.classList.add("btn-success");
+                }
+                document.getElementById("variaveis").value = variaveisSelecionadas.join(",");
+            });
+        });
+    });
+</script>
+{% endblock %}

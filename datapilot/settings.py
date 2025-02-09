@@ -55,7 +55,10 @@ ROOT_URLCONF = 'datapilot.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "tratamento/templates"],  # Confirme se o caminho está correto
+        'DIRS': [
+            BASE_DIR / "datapilot/templates",  # Diretório global
+            BASE_DIR / "tratamento/templates",  # Diretório específico do app tratamento
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

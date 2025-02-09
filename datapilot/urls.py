@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from . import views  # Certifique-se de que sua view home está importada corretamente
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('tratamento.urls')),  # Corrigido para evitar recursão
+    path('', views.home, name='home'),  # Página inicial
+    path('tratamento/', include('tratamento.urls')),  # Inclui as rotas do app tratamento sem prefixo
 ]

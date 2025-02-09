@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 border-0 rounded-3">
+        <h2 class="text-center mb-4 text-primary">Visualização de Dados</h2>
+        
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="funcao" class="form-label fw-bold">Selecione a ação desejada:</label>
+                <select class="form-select" id="funcao" name="funcao" required>
+                    <option value="exibir_info">📊 Exibir Informações Gerais</option>
+                    <option value="exibir_head">📄 Exibir Primeiras Linhas</option>
+                    <option value="exibir_describe">📈 Exibir Estatísticas</option>
+                    <option value="contar_valores_nulos">🚨 Contar Valores Nulos</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-lg px-4">Visualizar</button>
+            </div>
+        </form>
+        
+        {% if resultado %}
+            <div class="mt-4">
+                <h4 class="text-center text-success">Resultado:</h4>
+                <div class="table-responsive border rounded-3 shadow-sm p-3 bg-light">
+                    <table class="table table-hover table-bordered text-center align-middle">
+                        {{ resultado|safe }}
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+        
+        {% if erro %}
+            <div class="alert alert-danger mt-4 text-center fw-bold" role="alert">
+                ❌ Erro: {{ erro }}
+            </div>
+        {% endif %}
+        
+        <div class="d-flex justify-content-center mt-4">
+            <form action="{% url 'fazer_operacoes' %}" method="get">
+                <button type="submit" class="btn btn-secondary btn-lg px-4">Ir para Fazer Operações</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
