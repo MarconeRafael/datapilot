@@ -5,7 +5,10 @@ Este projeto tem como objetivo a automação de processos e serviços relacionad
 
 ## Estrutura do Projeto
 
+<<<<<<< HEAD
 ```
+=======
+>>>>>>> ce29d3800255c8589fe2e5b055fba6b503ae1483
 datapilot/                # Pasta raiz do projeto
 │-- manage.py             # Script principal para rodar o projeto
 │-- .gitignore            # Arquivo para ignorar arquivos/diretórios no git
@@ -29,4 +32,8 @@ datapilot/                # Pasta raiz do projeto
 │   │-- urls.py           # URLs específicas do app (caso precise)
 │   └── migrations/       # Diretório de migrações do banco de dados
 │       │-- __init__.py   # Inicialização do pacote de migrações
+<<<<<<< HEAD
 ```
+=======
+
+>>>>>>> ce29d3800255c8589fe2e5b055fba6b503ae1483
