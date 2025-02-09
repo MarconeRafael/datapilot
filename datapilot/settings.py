@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tratamento',
+    'django_extensions',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,7 +55,7 @@ ROOT_URLCONF = 'datapilot.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "tratamento/templates"],  # Confirme se o caminho está correto
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
