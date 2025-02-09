@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratamento de Dados</title>
+</head>
+<body>
+    <h1>Automação de Tratamento de Dados</h1>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <label for="arquivo">Selecione um arquivo CSV:</label>
+        <input type="file" name="arquivo" required><br><br>
+
+        <label for="funcao">Escolha a função:</label>
+        <select name="funcao">
+            <option value="exibir_info">Exibir Informações</option>
+            <option value="exibir_head">Exibir Cabeçalho</option>
+            <option value="exibir_describe">Exibir Estatísticas</option>
+            <option value="contar_valores_nulos">Contar Valores Nulos</option>
+            <option value="remover_valores_nulos">Remover Valores Nulos</option>
+            <option value="calcular_correlacao">Calcular Correlação</option>
+            <option value="plotar_heatmap_correlacao">Plotar Heatmap de Correlação</option>
+            <option value="correlacao_com_variavel">Correlação com Variável</option>
+            <option value="filtrar_variaveis">Filtrar Variáveis</option>
+            <option value="plotar_histograma">Plotar Histograma</option>
+            <option value="dividir_dados_treino_teste">Dividir Dados Treino/Teste</option>
+            <option value="padronizar_dados">Padronizar Dados</option>
+        </select><br><br>
+
+        <label for="variavel">Variável (se necessário):</label>
+        <input type="text" name="variavel"><br><br>
+
+        <label for="variaveis">Lista de Variáveis (se necessário, separadas por vírgula):</label>
+        <input type="text" name="variaveis"><br><br>
+
+        <button type="submit">Executar</button>
+    </form>
+
+    {% if resultado %}
+        <h2>Resultado:</h2>
+        <div>{{ resultado|safe }}</div>
+    {% endif %}
+
+    {% if erro %}
+        <h2 style="color: red;">Erro:</h2>
+        <p>{{ erro }}</p>
+    {% endif %}
+</body>
+</html>

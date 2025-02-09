@@ -8,7 +8,6 @@ Este projeto tem como objetivo a automação de processos e serviços relacionad
 
 ```
 =======
->>>>>>> ce29d3800255c8589fe2e5b055fba6b503ae1483
 datapilot/                # Pasta raiz do projeto
 │-- manage.py             # Script principal para rodar o projeto
 │-- .gitignore            # Arquivo para ignorar arquivos/diretórios no git
@@ -25,6 +24,7 @@ datapilot/                # Pasta raiz do projeto
 │-- tratamento/           # Novo app Django para tratamento de dados
 │   │-- __init__.py       # Inicialização do pacote
 │   │-- admin.py          # Configurações do Django Admin
+│   │-- urls.py
 │   │-- apps.py           # Configuração do app
 │   │-- models.py         # Modelos de dados
 │   │-- views.py          # Lógica de views do app
@@ -32,7 +32,13 @@ datapilot/                # Pasta raiz do projeto
 │   │-- urls.py           # URLs específicas do app (caso precise)
 │   └── migrations/       # Diretório de migrações do banco de dados
 │       │-- __init__.py   # Inicialização do pacote de migrações
-<<<<<<< HEAD
+│   └── utils/       # Diretório de migrações do banco de dados
+│       │-- funcoes.py   # Inicialização do pacote de migrações
+│   └── templates/       # Diretório de migrações do banco de dados
+│       │-- home.html  # Inicialização do pacote de migrações
+│   └── statc/       # Diretório de migrações do banco de dados
+│       │-- style.css  # Inicialização do pacote de migrações
+
 ```
 =======
 

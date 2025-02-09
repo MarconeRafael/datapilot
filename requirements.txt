@@ -1,6 +1,5 @@
-Django>=4.0,<5.0
-djangorestframework>=3.13,<4.0
-psycopg2>=2.9,<3.0  # caso esteja usando PostgreSQL, caso contrário, altere para o banco de dados desejado
-django-cors-headers>=3.10,<4.0  # caso precise de suporte a CORS (Cross-Origin Resource Sharing)
-djangorestframework-simplejwt>=5.0,<6.0  # para autenticação baseada em JWT (JSON Web Tokens)
 python-dotenv>=0.19,<1.0  # para carregar variáveis de ambiente do arquivo .env
+pandas # para manipulação de dados
+seaborn>=0.11.0,<1.0  # para visualizações avançadas
+matplotlib>=3.4,<4.0  # para visualização de dados
+Flask
