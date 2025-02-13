@@ -1,15 +1,46 @@
 {% extends 'base.html' %}
 
-{% block title %}Página Inicial{% endblock %}
+{% block title %}Início - Automação de Ciência de Dados{% endblock %}
 
 {% block content %}
 <div class="container text-center mt-5">
-    <h1 class="display-4 text-primary">Bem-vindo ao Meu Projeto Django</h1>
-    <p class="lead">Gerencie e analise seus dados de forma intuitiva e eficiente.</p>
-    
-    <div class="d-flex justify-content-center gap-3 mt-4">
-        <a href="tratamento/receber_dados/" class="btn btn-lg btn-primary">📂 Upload de Dados</a>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 fw-bold text-primary">Automação de Ciência de Dados</h1>
+            <p class="lead text-muted">
+                Faça upload de seus datasets, visualize estatísticas e execute operações avançadas de forma rápida e intuitiva.
+            </p>
 
+            <!-- 🟢 PASSO 01: Exibir alerta se não houver dados na sessão -->
+            {% if request.session.dataset %}
+                <div class="alert alert-success">
+                    ✅ Um dataset foi carregado! Você pode visualizar os dados ou realizar operações.
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    ⚠️ Nenhum dataset foi carregado. Faça o upload de um arquivo CSV para começar.
+                </div>
+            {% endif %}
+
+            <!-- 🟢 PASSO 02: Ajustar botões conforme a presença de dados -->
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{% url 'tratamento:receber_dados' %}" class="btn btn-lg btn-primary">
+                    📂 Upload de Dados
+                </a>
+
+                {% if request.session.dataset %}
+                    <a href="{% url 'tratamento:exibir_coisas' %}" class="btn btn-lg btn-outline-secondary">
+                        🔍 Visualizar Dados
+                    </a>
+                    <a href="{% url 'tratamento:fazer_operacoes' %}" class="btn btn-lg btn-outline-success">
+                        ⚙️ Fazer Operações
+                    </a>
+                {% else %}
+                    <button class="btn btn-lg btn-outline-secondary" disabled>🔍 Visualizar Dados</button>
+                    <button class="btn btn-lg btn-outline-success" disabled>⚙️ Fazer Operações</button>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

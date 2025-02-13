@@ -33,7 +33,7 @@
             <input type="hidden" name="variaveis" id="variaveis" value="">
             
             <div class="d-flex justify-content-center mt-4">
-                <button type="submit" class="btn btn-success btn-lg">Executar Operação</button>
+                <button type="submit" class="btn btn-success btn-lg" id="executar-btn" disabled>Executar Operação</button>
             </div>
         </form>
         
@@ -41,9 +41,7 @@
             <div class="mt-4">
                 <h4 class="text-center text-success">Resultado:</h4>
                 <div class="table-responsive border rounded-3 shadow-sm p-3 bg-light">
-                    <table class="table table-hover table-bordered text-center align-middle">
-                        {{ resultado|safe }}
-                    </table>
+                    {{ resultado|safe }}
                 </div>
             </div>
         {% endif %}
@@ -61,33 +59,55 @@
         let operacaoSelecionada = "";
         let variaveisSelecionadas = [];
 
-        document.querySelectorAll(".operacao-btn").forEach(btn => {
+        const btnsOperacao = document.querySelectorAll(".operacao-btn");
+        const btnsVariavel = document.querySelectorAll(".variavel-btn");
+        const inputFuncao = document.getElementById("funcao");
+        const inputVariaveis = document.getElementById("variaveis");
+        const btnExecutar = document.getElementById("executar-btn");
+        const variaveisContainer = document.getElementById("variaveis-container");
+
+        // Função para ativar/desativar o botão de execução
+        function atualizarEstadoBotao() {
+            btnExecutar.disabled = !operacaoSelecionada;
+        }
+
+        // Evento de clique nos botões de operação
+        btnsOperacao.forEach(btn => {
             btn.addEventListener("click", function() {
-                document.querySelectorAll(".operacao-btn").forEach(b => b.classList.remove("btn-success"));
+                // Remove a seleção de outros botões e destaca o clicado
+                btnsOperacao.forEach(b => b.classList.remove("btn-success"));
                 this.classList.add("btn-success");
-                operacaoSelecionada = this.dataset.funcao;
-                document.getElementById("funcao").value = operacaoSelecionada;
                 
+                operacaoSelecionada = this.dataset.funcao;
+                inputFuncao.value = operacaoSelecionada;
+
+                // Mostrar ou ocultar seleção de variáveis conforme a operação
                 if (["correlacao_com_variavel", "filtrar_variaveis", "plotar_histograma", "dividir_dados_treino_teste", "padronizar_dados"].includes(operacaoSelecionada)) {
-                    document.getElementById("variaveis-container").classList.remove("d-none");
+                    variaveisContainer.classList.remove("d-none");
                 } else {
-                    document.getElementById("variaveis-container").classList.add("d-none");
+                    variaveisContainer.classList.add("d-none");
                     variaveisSelecionadas = [];
-                    document.getElementById("variaveis").value = "";
+                    inputVariaveis.value = "";
                 }
+
+                atualizarEstadoBotao();
             });
         });
 
-        document.querySelectorAll(".variavel-btn").forEach(btn => {
+        // Evento de clique nos botões de variável
+        btnsVariavel.forEach(btn => {
             btn.addEventListener("click", function() {
-                if (variaveisSelecionadas.includes(this.dataset.variavel)) {
-                    variaveisSelecionadas = variaveisSelecionadas.filter(v => v !== this.dataset.variavel);
+                const variavel = this.dataset.variavel;
+
+                if (variaveisSelecionadas.includes(variavel)) {
+                    variaveisSelecionadas = variaveisSelecionadas.filter(v => v !== variavel);
                     this.classList.remove("btn-success");
                 } else {
-                    variaveisSelecionadas.push(this.dataset.variavel);
+                    variaveisSelecionadas.push(variavel);
                     this.classList.add("btn-success");
                 }
-                document.getElementById("variaveis").value = variaveisSelecionadas.join(",");
+
+                inputVariaveis.value = variaveisSelecionadas.join(",");
             });
         });
     });

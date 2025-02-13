@@ -5,5 +5,5 @@ from . import views  # Certifique-se de que sua view home está importada corret
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),  # Página inicial
-    path('tratamento/', include('tratamento.urls')),  # Inclui as rotas do app tratamento sem prefixo
+    path('tratamento/', include('tratamento.urls')),  
 ]

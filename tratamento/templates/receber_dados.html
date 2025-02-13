@@ -1,46 +1,100 @@
 {% extends 'base.html' %}
 
+{% block title %}Upload de Arquivo CSV{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-    <div class="card shadow-lg p-4">
-        <h2 class="text-center mb-4">Upload de Arquivo CSV</h2>
-        
+    <div class="card shadow-lg p-4 border-0 rounded-3">
+        <h2 class="text-center mb-4 text-primary">Upload de Arquivo CSV</h2>
+
+        <!-- 🟢 PASSO 01: Exibir alerta se já houver um dataset carregado -->
+        {% if request.session.dataset %}
+            <div class="alert alert-info text-center">
+                ✅ Um dataset já foi carregado! Se quiser substituir, envie um novo arquivo.
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                ⚠️ Nenhum dataset foi carregado. Selecione um arquivo CSV para começar.
+            </div>
+        {% endif %}
+
+        <!-- Mensagens de erro e sucesso -->
         {% if mensagem %}
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success text-center" role="alert">
                 {{ mensagem }}
             </div>
         {% endif %}
         
-        <form method="post" action="{% url 'exibir_coisas' %}" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% if erro %}
+            <div class="alert alert-danger text-center" role="alert">
+                ❌ {{ erro }}
+            </div>
+        {% endif %}
+
+        <!-- Formulário de Upload -->
+        <form method="post" action="{% url 'tratamento:receber_dados' %}" enctype="multipart/form-data" class="needs-validation" novalidate id="upload-form">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="arquivo" class="form-label">Selecione um arquivo CSV:</label>
+                <label for="arquivo" class="form-label fw-bold">Selecione um arquivo CSV:</label>
                 <input type="file" class="form-control" id="arquivo" name="arquivo" accept=".csv" required>
                 <div class="invalid-feedback">
                     Por favor, selecione um arquivo CSV válido.
                 </div>
             </div>
-            
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Carregar Arquivo</button>
+
+            <!-- Barra de Progresso -->
+            <div class="progress" style="height: 20px; display: none;" id="upload-progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%;" id="progress-bar"></div>
+            </div>
+
+            <!-- Botão de Envio com Spinner -->
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg" id="upload-btn">
+                    <span id="upload-text">📂 Carregar Arquivo</span>
+                    <span class="spinner-border spinner-border-sm d-none" id="upload-spinner"></span>
+                </button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    (function() {
-        'use strict';
-        var forms = document.querySelectorAll('.needs-validation');
-        Array.prototype.slice.call(forms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
+    document.addEventListener("DOMContentLoaded", function() {
+        let form = document.getElementById("upload-form");
+        let progressBar = document.getElementById("progress-bar");
+        let uploadProgress = document.getElementById("upload-progress");
+        let uploadBtn = document.getElementById("upload-btn");
+        let uploadText = document.getElementById("upload-text");
+        let uploadSpinner = document.getElementById("upload-spinner");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede o envio imediato para exibir a barra de progresso
+
+            if (!form.checkValidity()) {
+                event.stopPropagation();
+                form.classList.add("was-validated");
+                return;
+            }
+
+            // Exibir feedback de carregamento
+            uploadBtn.disabled = true;
+            uploadText.textContent = "Carregando...";
+            uploadSpinner.classList.remove("d-none");
+            uploadProgress.style.display = "block";
+            progressBar.style.width = "0%";
+
+            // Simular progresso do upload
+            let width = 0;
+            let interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    form.submit(); // Enviar o formulário após a simulação da barra de progresso
+                } else {
+                    width += 10;
+                    progressBar.style.width = width + "%";
                 }
-                form.classList.add('was-validated');
-            }, false);
+            }, 300);
         });
-    })();
+    });
 </script>
 {% endblock %}
