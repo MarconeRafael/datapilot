@@ -1,6 +1,9 @@
+Django>=3.2,<4.0
+djangorestframework
 python-dotenv>=0.19,<1.0  # para carregar variáveis de ambiente do arquivo .env
 pandas # para manipulação de dados
 seaborn>=0.11.0,<1.0  # para visualizações avançadas
 matplotlib>=3.4,<4.0  # para visualização de dados
 Flask
 scikit-learn
+django-extensions

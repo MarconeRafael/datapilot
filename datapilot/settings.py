@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tratamento',
     'django_extensions',
+    
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
